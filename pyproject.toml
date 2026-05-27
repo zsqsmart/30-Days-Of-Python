@@ -11,3 +11,30 @@ dev = [
     "pytest>=9.0.3",
     "ruff>=0.15.14",
 ]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+# A    = flake8-builtins  覆盖内置名检测（核心需求：str = 1 会报 A001）
+# E,W  = pycodestyle      代码风格
+# F    = pyflakes         未使用变量、未定义名
+# B    = flake8-bugbear   常见易错模式
+# UP   = pyupgrade        过时语法升级
+select = ["A", "E", "W", "F", "B", "UP", "ARG", "Q"]
+
+# Q 规则集 (flake8-quotes) 配置：统一使用单引号
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"     # 普通字符串：'hello'
+multiline-quotes = "single"  # 三引号：'''...'''
+docstring-quotes = "double"  # 文档字符串保持双引号 """...""" (PEP 257 推荐)
+avoid-escape = true          # 含单引号时允许用双引号避免转义，例如 "it's"
+
+# 格式化器（ruff format）配置：自动格式化时使用单引号
+[tool.ruff.format]
+quote-style = "single"
+
+# 如果某个文件确实需要使用 str/list 作为局部变量，可豁免：
+# [tool.ruff.lint.per-file-ignores]
+# "tests/*.py" = ["A001"]
